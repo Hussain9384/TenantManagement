@@ -11,10 +11,13 @@ namespace TenantManagement.Processor.Processor
     public class TenantProcessor : ITenantProcessor
     {
         private readonly ITenantCommandRepository _tenantCommandRepository;
+        private readonly ITenantQueryRepository _tenantQueryRepository;
 
-        public TenantProcessor(ITenantCommandRepository tenantCommandRepository)
+        public TenantProcessor(ITenantCommandRepository tenantCommandRepository, 
+                                ITenantQueryRepository tenantQueryRepository)
         {
             _tenantCommandRepository = tenantCommandRepository;
+            _tenantQueryRepository = tenantQueryRepository;
         }
         public async Task<Tenant> CreateTenant(Tenant tenant)
         {
@@ -27,9 +30,10 @@ namespace TenantManagement.Processor.Processor
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Tenant> GetTenants()
+        public async Task<IEnumerable<Tenant>> GetTenants()
         {
-            throw new NotImplementedException();
+            var tenants= await _tenantQueryRepository.GetTenants();
+            return tenants;
         }
 
         public Tenant UpdateTenant(Tenant tenant)

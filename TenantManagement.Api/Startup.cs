@@ -47,7 +47,7 @@ namespace TenantManagement.Api
             services.AddSingleton(mapper);
             services.AddTransient<ITenantProcessor, TenantProcessor>();
             services.AddTransient<ITenantValidator, TenantValidator>();
-            //services.AddTransient<ITenantQueryRepository, TenantQueryRepository>();
+            services.AddTransient<ITenantQueryRepository, TenantQueryRepository>();
             services.AddTransient<ITenantCommandRepository, TenantCommandRepository>();
 
             services.AddSwaggerGen(c =>

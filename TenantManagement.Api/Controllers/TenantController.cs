@@ -46,5 +46,23 @@ namespace TenantManagement.Api.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllTenant()
+        {
+            _logger.LogInformation($"Executing {nameof(GetAllTenant)} ");
+            
+            try
+            {
+                var res = await _tenantProcessor.GetTenants();
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An Exception Occured in {nameof(CreateTenant)} :", ex);
+
+                return BadRequest();
+            }
+        }
     }
 }
