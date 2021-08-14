@@ -11,23 +11,27 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using TenantManagement.InfraStructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace TenantManagement.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration _config { get; }
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            _config = config;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
             services.AddControllers();
+            services.AddDbContext<TenantDatabase>(op=> {
+                op.UseSqlServer(_config.GetConnectionString("TenantConnectionString")); 
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TenantManagement.Api", Version = "v1" });
