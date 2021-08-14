@@ -13,6 +13,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using TenantManagement.InfraStructure.Database;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using TenantManagement.Processor.Processor;
+using TenantManagement.Processor.Validations;
+using TenantManagement.Processor.DbContracts;
+using TenantManagement.InfraStructure.Repository;
 
 namespace TenantManagement.Api
 {
@@ -32,6 +37,19 @@ namespace TenantManagement.Api
             services.AddDbContext<TenantDatabase>(op=> {
                 op.UseSqlServer(_config.GetConnectionString("TenantConnectionString")); 
             });
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddTransient<ITenantProcessor, TenantProcessor>();
+            services.AddTransient<ITenantValidator, TenantValidator>();
+            //services.AddTransient<ITenantQueryRepository, TenantQueryRepository>();
+            services.AddTransient<ITenantCommandRepository, TenantCommandRepository>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TenantManagement.Api", Version = "v1" });

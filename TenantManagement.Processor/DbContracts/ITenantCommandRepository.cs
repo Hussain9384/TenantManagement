@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TenantManagement.Processor.Models;
+
+namespace TenantManagement.Processor.DbContracts
+{
+    public interface ITenantCommandRepository
+    {
+        Task<Tenant> CreateTenant(Tenant tenant);
+        Tenant UpdateTenant(Tenant tenant);
+        Tenant DeleteTenant(Tenant tenant);
+        IEnumerable<Tenant> GetTenants();
+
+    }
+}
