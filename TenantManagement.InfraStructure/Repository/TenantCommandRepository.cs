@@ -8,26 +8,22 @@ using Entity=TenantManagement.InfraStructure.Entities;
 using TenantManagement.Processor.DbContracts;
 using Domain=TenantManagement.Processor.Models;
 using TenantManagement.InfraStructure.Database;
+using AppBaseEntity.BaseRepository;
 
 namespace TenantManagement.InfraStructure.Repository
 {   
-    public class TenantCommandRepository : ITenantCommandRepository
+    public class TenantCommandRepository : BaseCommandRepository<TenantDatabase>, ITenantCommandRepository
     {
         private readonly TenantDatabase _tenantDatabase;
-        public IMapper _mapper { get; }
 
-        public TenantCommandRepository(IMapper mapper,TenantDatabase  tenantDatabase)
+        public TenantCommandRepository(IMapper mapper,TenantDatabase  tenantDatabase):base(mapper, tenantDatabase)
         {
-            _mapper = mapper;
             _tenantDatabase = tenantDatabase;
         }
 
         public async Task<Domain.Tenant> CreateTenant(Domain.Tenant tenant)
         {
-            var entityModel = _mapper.Map<Entity.Tenant>(tenant);
-            _tenantDatabase.Add(entityModel);
-            await _tenantDatabase.SaveChangesAsync();
-            var domainModel = _mapper.Map<Domain.Tenant>(entityModel);
+           var domainModel = await Create<Domain.Tenant, Entities.Tenant>(tenant);
             return domainModel;
         }
 

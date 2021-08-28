@@ -7,6 +7,7 @@ using Domain=TenantManagement.Processor.Models;
 using TenantManagement.Processor.Processor;
 using TenantManagement.Processor.Validations;
 using System.Threading.Tasks;
+using AppBaseEntity.Models;
 
 namespace TenantManagement.Api.Controllers
 {
@@ -36,7 +37,7 @@ namespace TenantManagement.Api.Controllers
             try
             {
                 var domainModel = _mapper.Map<Domain.Tenant>(tenant);
-                 var res = await _tenantProcessor.CreateTenant(domainModel);
+                 var res = await _tenantProcessor.CreateTenant(domainModel);                
                 return Ok(res);
             }
             catch (Exception ex)

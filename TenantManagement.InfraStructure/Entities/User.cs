@@ -1,4 +1,6 @@
-﻿namespace TenantManagement.InfraStructure.Entities
+﻿using AppBaseEntity.Models;
+
+namespace TenantManagement.InfraStructure.Entities
 {
     public class User:BaseEntity
     {
