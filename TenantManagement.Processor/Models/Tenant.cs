@@ -12,9 +12,8 @@ namespace TenantManagement.Processor.Models
     {
         public string Code { get; set; }
         public string Name { get; set; }
-        public IEnumerable<Address> AddressList { get; set; }
-        public IEnumerable<User> Users { get; set; }
-        public IEnumerable<TenantProperty> Properties{ get; set; }
-        public IEnumerable<ContactDetail> ContactDetails { get; set; }
+        public string Password { get; set; }
+        public Address Address { get; set; }
+        public IEnumerable<TenantProperty> Properties { get; set; }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TenantManagement.InfraStructure.Database;
 
 namespace TenantManagement.InfraStructure.Migrations
 {
     [DbContext(typeof(TenantDatabase))]
-    partial class TenantDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20211004024455_UpdateTenantPassword")]
+    partial class UpdateTenantPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +43,12 @@ namespace TenantManagement.InfraStructure.Migrations
                     b.Property<string>("StreetName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Addresses");
                 });
@@ -65,7 +72,12 @@ namespace TenantManagement.InfraStructure.Migrations
                     b.Property<string>("TelePhone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ContactDetails");
                 });
@@ -77,9 +89,6 @@ namespace TenantManagement.InfraStructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
@@ -90,8 +99,6 @@ namespace TenantManagement.InfraStructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
 
                     b.ToTable("Tenants");
                 });
@@ -126,21 +133,31 @@ namespace TenantManagement.InfraStructure.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TenantManagement.InfraStructure.Entities.Tenant", b =>
+            modelBuilder.Entity("TenantManagement.InfraStructure.Entities.Address", b =>
                 {
-                    b.HasOne("TenantManagement.InfraStructure.Entities.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
+                    b.HasOne("TenantManagement.InfraStructure.Entities.Tenant", null)
+                        .WithMany("AddressList")
+                        .HasForeignKey("TenantId");
+                });
 
-                    b.Navigation("Address");
+            modelBuilder.Entity("TenantManagement.InfraStructure.Entities.ContactDetail", b =>
+                {
+                    b.HasOne("TenantManagement.InfraStructure.Entities.Tenant", null)
+                        .WithMany("ContactDetails")
+                        .HasForeignKey("TenantId");
                 });
 
             modelBuilder.Entity("TenantManagement.InfraStructure.Entities.TenantProperty", b =>
@@ -150,9 +167,22 @@ namespace TenantManagement.InfraStructure.Migrations
                         .HasForeignKey("TenantId");
                 });
 
+            modelBuilder.Entity("TenantManagement.InfraStructure.Entities.User", b =>
+                {
+                    b.HasOne("TenantManagement.InfraStructure.Entities.Tenant", null)
+                        .WithMany("Users")
+                        .HasForeignKey("TenantId");
+                });
+
             modelBuilder.Entity("TenantManagement.InfraStructure.Entities.Tenant", b =>
                 {
+                    b.Navigation("AddressList");
+
+                    b.Navigation("ContactDetails");
+
                     b.Navigation("Properties");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

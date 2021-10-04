@@ -49,6 +49,7 @@ namespace TenantManagement.Api
             services.AddTransient<ITenantValidator, TenantValidator>();
             services.AddTransient<ITenantQueryRepository, TenantQueryRepository>();
             services.AddTransient<ITenantCommandRepository, TenantCommandRepository>();
+            services.AddTransient<IAuthProcessor, AuthProcessor>();
 
             services.AddSwaggerGen(c =>
             {

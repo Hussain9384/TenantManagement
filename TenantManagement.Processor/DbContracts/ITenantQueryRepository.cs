@@ -10,5 +10,8 @@ namespace TenantManagement.Processor.DbContracts
     public interface ITenantQueryRepository
     {
         Task<IEnumerable<Domain.Tenant>> GetTenants();
+
+        Task<Domain.Tenant> GetTenant(string userName,string password);
+
     }
 }

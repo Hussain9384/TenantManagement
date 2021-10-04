@@ -17,10 +17,17 @@ namespace TenantManagement.InfraStructure.Repository
         {
             _tenantDatabase = tenantDatabase;
             _mapper = mapper;
+            _tenantDatabase.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public TenantDatabase _tenantDatabase { get; }
         public IMapper _mapper { get; }
+
+        public async Task<Tenant> GetTenant(string userName, string password)
+        {
+            var tenantEntity = await _tenantDatabase.Tenants.FirstAsync(t => t.Name == userName && t.Password == password);
+            return _mapper.Map<Tenant>(tenantEntity);
+        }
 
         public async Task<IEnumerable<Tenant>> GetTenants()
         {
