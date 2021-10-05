@@ -37,6 +37,7 @@ namespace TenantManagement.Api
             CreateMap<Domain.ContactDetail, Entity.ContactDetail>();
             CreateMap<Entity.ContactDetail, Domain.ContactDetail>();
 
+            CreateMap<Domain.TokenInfo,Dto.TokenInfo>();
             CreateMap<Dto.TokenInfo, Domain.TokenInfo>();
             CreateMap<Dto.LoginRequest, Domain.LoginRequest>();
 

@@ -20,9 +20,9 @@ namespace TenantManagement.Processor.Processor
 
         public ITenantQueryRepository _tenantQueryRepository { get; }
 
-        public TokenInfo ValidateCredentials(LoginRequest loginRequest)
+        public async Task<TokenInfo> ValidateCredentials(LoginRequest loginRequest)
         {
-            var tenant =_tenantQueryRepository.GetTenant(loginRequest.UserName, loginRequest.Password);
+            var tenant =await _tenantQueryRepository.GetTenantByUserNamePass(loginRequest.UserName, loginRequest.Password);
             var claims = new List<Claim>();
             claims.Add(new Claim(JwtRegisteredClaimNames.Aud , "Products"));
             if (tenant !=null)
@@ -37,7 +37,8 @@ namespace TenantManagement.Processor.Processor
                 var tokenString=tokenHandler.WriteToken(token);
                 return new TokenInfo { Token = tokenString };
             }
-            throw new NotImplementedException();
+            return new TokenInfo();
+            //throw new NotImplementedException();
         }
     }
 }

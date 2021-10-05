@@ -36,13 +36,13 @@ namespace TenantManagement.Api.Controllers
             }
             try
             {
-                var res = _authProcessor.ValidateCredentials(_mapper.Map<Domain.LoginRequest>(loginRequest));
+                var res = await _authProcessor.ValidateCredentials(_mapper.Map<Domain.LoginRequest>(loginRequest));
                 return Ok(_mapper.Map<TokenInfo>(res));
             }
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
 
         }

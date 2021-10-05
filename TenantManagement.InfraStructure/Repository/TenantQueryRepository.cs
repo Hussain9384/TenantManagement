@@ -23,7 +23,7 @@ namespace TenantManagement.InfraStructure.Repository
         public TenantDatabase _tenantDatabase { get; }
         public IMapper _mapper { get; }
 
-        public async Task<Tenant> GetTenant(string userName, string password)
+        public async Task<Tenant> GetTenantByUserNamePass(string userName, string password)
         {
             var tenantEntity = await _tenantDatabase.Tenants.FirstAsync(t => t.Name == userName && t.Password == password);
             return _mapper.Map<Tenant>(tenantEntity);

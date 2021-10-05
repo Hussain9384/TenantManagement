@@ -1,9 +1,10 @@
-﻿using TenantManagement.Processor.Models;
+﻿using System.Threading.Tasks;
+using TenantManagement.Processor.Models;
 
 namespace TenantManagement.Processor.Processor
 {
     public interface IAuthProcessor
     {
-        TokenInfo ValidateCredentials(LoginRequest loginRequest);
+        Task<TokenInfo> ValidateCredentials(LoginRequest loginRequest);
     }
 }
