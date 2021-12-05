@@ -23,6 +23,13 @@ namespace TenantManagement.Api
 {
     public class Startup
     {
+        public static readonly ILoggerFactory MyLoggerFactory =
+        LoggerFactory.Create(
+            builder =>
+            {
+                builder.AddConsole();
+            }
+        );
         public IConfiguration _config { get; }
         public Startup(IConfiguration config)
         {
@@ -33,9 +40,13 @@ namespace TenantManagement.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
-            services.AddDbContext<TenantDatabase>(op=> {
-                op.UseSqlServer(_config.GetConnectionString("TenantConnectionString")); 
+            services.AddControllers().AddNewtonsoftJson(options=> {
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+            services.AddDbContext<TenantDatabase>(op =>
+            {
+                op.UseSqlServer(_config.GetConnectionString("TenantConnectionString"))
+                .UseLoggerFactory(MyLoggerFactory);
             });
 
             var mapperConfig = new MapperConfiguration(mc =>
@@ -65,12 +76,11 @@ namespace TenantManagement.Api
         {
             //if (env.IsDevelopment())
             //{
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TenantManagement.Api v1"));
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TenantManagement.Api v1"));
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             //app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();

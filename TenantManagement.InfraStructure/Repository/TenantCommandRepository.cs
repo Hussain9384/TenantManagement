@@ -27,9 +27,20 @@ namespace TenantManagement.InfraStructure.Repository
             return domainModel;
         }
 
-        public Domain.Tenant DeleteTenant(Domain.Tenant tenant)
+        public async Task<bool> DeleteTenant(IEnumerable<long> tenantIds)
         {
-            throw new NotImplementedException();
+            IQueryable<Entities.Tenant> tenants;
+            if (tenantIds !=null && tenantIds.All(id=>id > 0))
+            {
+                tenants = _tenantDatabase.Tenants.Where(t => tenantIds.Contains(t.Id));
+               
+            }
+            else
+            {
+                tenants = _tenantDatabase.Tenants.Select(s=>s);
+            }
+            _tenantDatabase.Tenants.RemoveRange(tenants);
+            return  await _tenantDatabase.SaveChangesAsync() > 0;
         }
 
         public async Task<Domain.Tenant> UpdateTenant(Domain.Tenant tenant)

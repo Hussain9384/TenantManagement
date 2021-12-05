@@ -11,6 +11,6 @@ namespace TenantManagement.Processor.DbContracts
     {
         Task<Tenant> CreateTenant(Tenant tenant);
         Task<Tenant> UpdateTenant(Tenant tenant);
-        Tenant DeleteTenant(Tenant tenant);
+        Task<bool> DeleteTenant(IEnumerable<long> tenant);
     }
 }

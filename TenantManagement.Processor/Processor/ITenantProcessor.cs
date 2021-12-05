@@ -9,7 +9,7 @@ namespace TenantManagement.Processor.Processor
     {
         Task<Tenant> CreateTenant(Tenant tenant);
         Task<Tenant> UpdateTenant(Tenant tenant);
-        Tenant DeleteTenant(Tenant tenant); 
+        Task<bool> DeleteTenant(IEnumerable<long> tenantIds); 
         Task<IEnumerable<Tenant>> GetTenants();
         Task<Summary> GetTenantSummary();
 

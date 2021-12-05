@@ -4,6 +4,7 @@ namespace TenantManagement.InfraStructure.Entities
 {
     public class Address : BaseEntity
     {
+        public int TenantId { get; set; }
         public string PinCode { get; set; }
         public string StreetName { get; set; }
         public string AddressLine1 { get; set; }

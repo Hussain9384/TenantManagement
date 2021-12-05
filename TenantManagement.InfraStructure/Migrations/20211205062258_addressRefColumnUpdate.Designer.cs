@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TenantManagement.InfraStructure.Database;
 
 namespace TenantManagement.InfraStructure.Migrations
 {
     [DbContext(typeof(TenantDatabase))]
-    partial class TenantDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20211205062258_addressRefColumnUpdate")]
+    partial class addressRefColumnUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,8 +156,7 @@ namespace TenantManagement.InfraStructure.Migrations
                 {
                     b.HasOne("TenantManagement.InfraStructure.Entities.Tenant", null)
                         .WithMany("Properties")
-                        .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TenantId");
                 });
 
             modelBuilder.Entity("TenantManagement.InfraStructure.Entities.Tenant", b =>

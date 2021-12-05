@@ -25,9 +25,10 @@ namespace TenantManagement.Processor.Processor
             return res;
         }
 
-        public Tenant DeleteTenant(Tenant tenant)
+
+        public  async Task<bool> DeleteTenant(IEnumerable<long> tenantIds)
         {
-            throw new NotImplementedException();
+            return await  _tenantCommandRepository.DeleteTenant(tenantIds);
         }
 
         public async Task<IEnumerable<Tenant>> GetTenants()

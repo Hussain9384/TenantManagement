@@ -8,6 +8,8 @@ using TenantManagement.Processor.Processor;
 using TenantManagement.Processor.Validations;
 using System.Threading.Tasks;
 using AppBaseEntity.Models;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace TenantManagement.Api.Controllers
 {
@@ -72,7 +74,24 @@ namespace TenantManagement.Api.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpDelete("DeleteTenants")]
+        public async Task<IActionResult> DeleteTenants(IEnumerable<long> tenantIds)
+        {
+            string actionName = nameof(DeleteTenants);
+            _logger.LogInformation($"Executing {actionName}");
+            try
+            {
+                var res = _tenantProcessor.DeleteTenant(tenantIds);
+                return Ok(res.Result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An Exception Occured in {nameof(actionName)} :", ex);
+                return  StatusCode(StatusCodes.Status500InternalServerError,ex);
+            }
+        }
+
+        [HttpGet("GetAllTenant")]
         public async Task<IActionResult> GetAllTenant()
         {
             _logger.LogInformation($"Executing {nameof(GetAllTenant)} ");
