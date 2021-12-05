@@ -11,7 +11,9 @@ namespace TenantManagement.Processor.DbContracts
     {
         Task<IEnumerable<Domain.Tenant>> GetTenants();
 
-        Task<Domain.Tenant> GetTenantByUserNamePass(string userName,string password);
+        Task<Domain.Tenant> GetTenantByCodeAndPass(string tenantCode,string tenantPassword);
+
+        Task<Domain.Summary> GetTenantSummary();
 
     }
 }

@@ -10,9 +10,7 @@ namespace TenantManagement.Processor.DbContracts
     public interface ITenantCommandRepository
     {
         Task<Tenant> CreateTenant(Tenant tenant);
-        Tenant UpdateTenant(Tenant tenant);
+        Task<Tenant> UpdateTenant(Tenant tenant);
         Tenant DeleteTenant(Tenant tenant);
-        IEnumerable<Tenant> GetTenants();
-
     }
 }

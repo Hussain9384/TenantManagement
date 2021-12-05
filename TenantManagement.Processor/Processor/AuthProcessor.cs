@@ -22,11 +22,12 @@ namespace TenantManagement.Processor.Processor
 
         public async Task<TokenInfo> ValidateCredentials(LoginRequest loginRequest)
         {
-            var tenant =await _tenantQueryRepository.GetTenantByUserNamePass(loginRequest.UserName, loginRequest.Password);
-            var claims = new List<Claim>();
-            claims.Add(new Claim(JwtRegisteredClaimNames.Aud , "Products"));
+            var tenant =await _tenantQueryRepository.GetTenantByCodeAndPass(loginRequest.TenantCode, loginRequest.TenantPassword);
+           
             if (tenant !=null)
             {
+                var claims = new List<Claim>();
+                claims.Add(new Claim(JwtRegisteredClaimNames.Aud, "Products"));
                 var tokenDescription = new SecurityTokenDescriptor()
                 {
                     Subject = new ClaimsIdentity(claims),
@@ -37,8 +38,11 @@ namespace TenantManagement.Processor.Processor
                 var tokenString=tokenHandler.WriteToken(token);
                 return new TokenInfo { Token = tokenString };
             }
-            return new TokenInfo();
-            //throw new NotImplementedException();
+            else
+            {
+                throw new NotImplementedException();
+            }
+
         }
     }
 }

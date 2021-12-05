@@ -29,8 +29,8 @@ namespace TenantManagement.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> ValidateCredentials([FromBody]LoginRequest loginRequest)
         {
-            _logger.LogInformation($"Executing {nameof(ValidateCredentials)} for User : {loginRequest.UserName}");
-            if (string.IsNullOrWhiteSpace(loginRequest.UserName) || string.IsNullOrWhiteSpace(loginRequest.Password))
+            _logger.LogInformation($"Executing {nameof(ValidateCredentials)} for User : {loginRequest.TenantCode}");
+            if (string.IsNullOrWhiteSpace(loginRequest.TenantCode) || string.IsNullOrWhiteSpace(loginRequest.TenantPassword))
             {
                 return BadRequest();
             }
@@ -41,7 +41,6 @@ namespace TenantManagement.Api.Controllers
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
 

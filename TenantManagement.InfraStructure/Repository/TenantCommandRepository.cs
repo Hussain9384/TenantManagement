@@ -32,14 +32,11 @@ namespace TenantManagement.InfraStructure.Repository
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Domain.Tenant> GetTenants()
+        public async Task<Domain.Tenant> UpdateTenant(Domain.Tenant tenant)
         {
-            throw new NotImplementedException();
+            var domainModel = await Update<Domain.Tenant, Entities.Tenant>(tenant);
+            return domainModel;
         }
 
-        public Domain.Tenant UpdateTenant(Domain.Tenant tenant)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

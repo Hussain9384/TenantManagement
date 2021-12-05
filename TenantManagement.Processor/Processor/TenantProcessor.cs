@@ -36,9 +36,15 @@ namespace TenantManagement.Processor.Processor
             return tenants;
         }
 
-        public Tenant UpdateTenant(Tenant tenant)
+        public async Task<Summary> GetTenantSummary()
         {
-            throw new NotImplementedException();
+            var summary = await _tenantQueryRepository.GetTenantSummary();
+            return summary;
+        }
+
+        public async Task<Tenant> UpdateTenant(Tenant tenant)
+        {
+            return await _tenantCommandRepository.UpdateTenant(tenant);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace TenantManagement.Processor.Validations
     {
         public bool ValidateCode(Tenant tenant)
         {
-            if (String.IsNullOrWhiteSpace(tenant.Name))
+            if (String.IsNullOrWhiteSpace(tenant.Code))
             {
                 return false;
             }

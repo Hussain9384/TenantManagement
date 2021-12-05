@@ -1,4 +1,6 @@
-﻿namespace TenantManagement.Api.Dto
+﻿using AppBaseEntity.Models;
+
+namespace TenantManagement.Api.Dto
 { 
     public class User:BaseModel
     {

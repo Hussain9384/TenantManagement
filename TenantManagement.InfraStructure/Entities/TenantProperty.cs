@@ -5,5 +5,7 @@ namespace TenantManagement.InfraStructure.Entities
     public class TenantProperty:BaseEntity
     {
         public string Name { get; set; }
+        public string Code { get; set; }
+
     }
 }

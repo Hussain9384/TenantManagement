@@ -7,10 +7,11 @@ namespace TenantManagement.Processor.Processor
 {
     public interface ITenantProcessor
     {
-        Task<Tenant> CreateTenant(Tenant tenant);        
-        Tenant UpdateTenant(Tenant tenant);
-        Tenant DeleteTenant(Tenant tenant);
+        Task<Tenant> CreateTenant(Tenant tenant);
+        Task<Tenant> UpdateTenant(Tenant tenant);
+        Tenant DeleteTenant(Tenant tenant); 
         Task<IEnumerable<Tenant>> GetTenants();
+        Task<Summary> GetTenantSummary();
 
     }
 }

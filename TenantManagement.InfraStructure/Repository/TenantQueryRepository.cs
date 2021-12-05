@@ -23,9 +23,9 @@ namespace TenantManagement.InfraStructure.Repository
         public TenantDatabase _tenantDatabase { get; }
         public IMapper _mapper { get; }
 
-        public async Task<Tenant> GetTenantByUserNamePass(string userName, string password)
+        public async Task<Tenant> GetTenantByCodeAndPass(string tenantCode, string tenantPassword)
         {
-            var tenantEntity = await _tenantDatabase.Tenants.FirstAsync(t => t.Name == userName && t.Password == password);
+            var tenantEntity = await _tenantDatabase.Tenants.FirstOrDefaultAsync(t => t.Code == tenantCode && t.Password == tenantPassword);
             return _mapper.Map<Tenant>(tenantEntity);
         }
 
@@ -34,6 +34,18 @@ namespace TenantManagement.InfraStructure.Repository
             var entities = await _tenantDatabase.Tenants.ToListAsync();
             var res=_mapper.Map<IEnumerable<Tenant>>(entities);
             return res;
+        }
+
+        public async Task<Summary> GetTenantSummary()
+        {
+            var tenantCounts = await _tenantDatabase.Tenants.GroupBy(t => t.IsActive).Select(g => new { IsActive = g.Key, TenantCount = g.Count() }).ToListAsync();
+            var summary = new Summary()
+            {
+                ActiveTenantsCount = tenantCounts.Where(t => t.IsActive == true).FirstOrDefault() == null?0: tenantCounts.Where(t => t.IsActive == true).FirstOrDefault().TenantCount,
+                InActiveTenantsCount = tenantCounts.Where(t => t.IsActive == false).FirstOrDefault()==null?0: tenantCounts.Where(t => t.IsActive == false).FirstOrDefault().TenantCount
+            };
+            summary.TenantsCount = summary.InActiveTenantsCount + summary.ActiveTenantsCount;
+            return summary;
         }
     }
 }
